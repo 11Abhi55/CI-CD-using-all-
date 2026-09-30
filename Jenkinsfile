@@ -32,21 +32,18 @@ pipeline {
 
         stage ('Docker Container Run') {
             steps {
-                sh '''
-                    docker run -d -p ${PORT}:${PORT}
-                    --name $CONTAINER_NAME $IMAGE_NAME
-                '''
+                // ही कमांड एकाच ओळीत केली आहे जेणेकरून एरर येणार नाही
+                sh 'docker run -d -p ${PORT}:${PORT} --name $CONTAINER_NAME $IMAGE_NAME'
             }
         }
 
          stage ('Send Email Notification') {
             steps {
-                emaillext (
-                    subject: "Nestjs App deployed Succusefully
-                    on Ec2 Instance",
-                    body: "Your Nestjs app deployed succussfully 
-                    on port http://13.63.161.88:${PORT}",
-                    to: ${Email}
+                emailext (
+                    subject: "Nestjs App deployed Successfully on Ec2 Instance",
+                    // हा मेसेज आता एकाच ओळीत ठेवला आहे
+                    body: "Your Nestjs app deployed successfully on port http://13.63.161.88:${PORT}",
+                    to: "${EMAIL}" // इथे कॅपिटल EMAIL आणि Double Quotes टाकले आहेत
                 )
             }
         }
