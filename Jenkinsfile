@@ -17,6 +17,8 @@ pipeline {
 
         stage ('Build Docker Image') {
             steps {
+                sh 'pwd'
+                sh 'ls -la'
                 sh 'docker build -t $IMAGE_NAME .'
             }
         }
